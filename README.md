@@ -1,2 +1,2 @@
-# IA-TP2
-## Connect Four 
+# **Connect Four**
+## *Intelegncia Artificial - 2017*
