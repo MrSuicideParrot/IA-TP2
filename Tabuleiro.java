@@ -1,15 +1,50 @@
 import java.util.LinkedList;
 
 class Tabuleiro{
+  /* Inicio dos Movimentos ganhadores */
+  //Movimentos de diagonais y = x
+  //Lado este
+  private static final int[] MovX_D1_E = {1, 2, 3};
+  private static final int[] MovY_D1_E = {1, 2, 3};
+  //Lado oeste
+  private static final int[] MovX_D1_O = {-1, -2, -3};
+  private static final int[] MovY_D1_O = {-1, -2, -3};
+
+  //Movimentos de diagonais y = -x
+  //Lado este
+  private static final int[] MovX_D2_E = {1, 2, 3};
+  private static final int[] MovY_D2_E = {-1, -2, -3};
+  //Lado oeste
+  private static final int[] MovX_D2_O = {-1, -2, -3};
+  private static final int[] MovY_D2_O = {1, 2, 3};
+
+  //Movimentos Horizontal
+  //Este
+  private static final int[] MovX_HO_E = {1, 2, 3};
+  private static final int[] MovY_HO_E = {0, 0, 0};
+  //Oeste
+  private static final int[] MovX_HO_O = {-1, -2, -3};
+  private static final int[] MovY_HO_O = {0, 0, 0};
+
+  //Movimentos Vertical
+  //Norte
+  private static final int[] MovX_VE_N = {0, 0, 0};
+  private static final int[] MovY_VE_N = {1, 2, 3};
+  //Sul
+  private static final int[] MovX_VE_S = {0, 0, 0};
+  private static final int[] MovY_VE_S = {-1, -2, -3};
+  /* -------------------------------*/
+
+
   private static final int dimY = 6;
   private static final int dimX = 7;
 
   private static final char emp = '-';
 
   private char[][] tabu;
-  private char lastUser;
+  private char User;
 
-  Tabuleiro(char[][] m, char lastUser){
+  Tabuleiro(char[][] m, char User){
     tabu = new char[dimY][dimX];
     this.lastUser = lastUser;
     MatrizCopy.copy(dimX,dimY, tabu, m);
@@ -25,7 +60,7 @@ class Tabuleiro{
   private Tabuleiro nextRound(int row){
     char nextUser;
     Tabuleiro aux;
-    switch  (lastUser){
+    switch  (User){
       case 'X':
         nextUser = 'O';
         break;
@@ -43,11 +78,22 @@ class Tabuleiro{
     aux = new Tabuleiro(this.tabu, nextUser);
       for (int j = dimY-1;j>=0; --j) {
         if(aux.tabu[j][row] == emp){
-          aux.tabu[j][row] = aux.lastUser;
+          aux.tabu[j][row] = aux.User;
           break;
         }
       }
       return aux;
+    }
+
+    private boolean win(){
+    
+    }
+
+    private boolean isFull(){
+      for (int j = 0;j<dimX; ++j)
+        if(aux.tabu[0][j] == emp)
+          return false;
+      return true;
     }
 
     public String toString(){
