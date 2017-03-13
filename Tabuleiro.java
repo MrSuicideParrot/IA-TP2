@@ -177,7 +177,9 @@ class Tabuleiro{
       }
       return false;
     }
-
+    private int UTILITY(){
+      
+    }
 
     private boolean isFull(){
       for (int j = 0;j<dimX; ++j)
@@ -196,5 +198,4 @@ class Tabuleiro{
       }
       return aux;
     }
-
-  }
+}
