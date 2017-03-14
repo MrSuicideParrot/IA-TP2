@@ -46,11 +46,13 @@ class Tabuleiro{
 
   private char[][] tabu;
   private char User;
+  private Integer evalValue ;
 
   Tabuleiro(char[][] m, char User){
     tabu = new char[dimY][dimX];
     this.User = User;
     MatrizCopy.copy(dimX,dimY, tabu, m);
+    evalValue = NULL;
   }
 
   public LinkedList<Tabuleiro> nextRound(){
@@ -96,25 +98,78 @@ class Tabuleiro{
         int auxX = (x+movx[i]), auxY = (y+movy[i]);
         if(isValid(auxY,auxX) && tabu[auxY][auxX]==User){
           ++counter;
-          if(counter>=4)
+          if(counter>=4){
+            if(user == MACHINE){
+              evalValue += 512;
+            }
+            else{
+              evalValue -= 512;
+            }
             return counter;
+          }
         }
-        else break;
+        else{
+          if (tabu[auxY][auxX]!=emp) {
+           return 10+counter;
+          }
+          break;
+        }
       }
       return counter;
     }
 
     private boolean winHO(int y, int x){
       int count;
+      boolean flag = false
       //Este
       count = genericWin(y, x, MovX_HO_E, MovY_HO_E,1);
+
+      if(count >= 10){
+        count -= 10;
+        flag = true;
+      }
+
       if(count>=4)
           return true;
 
       //Oeste
       count = genericWin(y, x, MovX_HO_O, MovY_HO_O, count);
+
+      if(count >= 10){
+        if(flag)
+          return false;
+        else
+          count -= 10; // count = count - 10
+      }
+
+
       if(count>=4)
           return true;
+
+      int fac;
+      if(user == MACHINE){
+        fac = 1;
+      }
+      else{
+        fac = -1;
+      }
+
+      //contador
+      switch(count){
+        case 1:
+          evalValue += fac;
+          break;
+        case 2:
+          evalValue += (fac*10);
+          break;
+        case 3:
+          evalValue += (fac*50);
+          break;
+        default:
+          System.err.println("Erro switch do eval");
+          System.exit(0)
+          break;
+      }
 
       return false;
     }
@@ -123,13 +178,54 @@ class Tabuleiro{
       int count;
       //Este
       count = genericWin(y, x, MovX_VE_N, MovY_VE_N,1);
+
+      if(count >= 10){
+        count -= 10;
+        flag = true;
+      }
+
       if(count>=4)
           return true;
 
       //Oeste
       count = genericWin(y, x, MovX_VE_S, MovY_VE_S, count);
+
       if(count>=4)
           return true;
+
+          if(count >= 10){
+            if(flag)
+              return false;
+            else
+          count -= 10; // count = count - 10
+        }
+
+      //EVALUATED
+          int fac;
+          if(user == MACHINE){
+            fac = 1;
+          }
+          else{
+            fac = -1;
+          }
+
+          //contador
+          switch(count){
+            case 1:
+            evalValue += fac;
+            break;
+            case 2:
+            evalValue += (fac*10);
+            break;
+            case 3:
+            evalValue += (fac*50);
+            break;
+            default:
+            System.err.println("Erro switch do eval");
+            System.exit(0)
+            break;
+          }
+
 
       return false;
     }
@@ -138,13 +234,53 @@ class Tabuleiro{
       int count;
       //Este
       count = genericWin(y, x, MovX_D1_E, MovY_D1_E,1);
+
+      if(count >= 10){
+        count -= 10;
+        flag = true;
+      }
+
       if(count>=4)
           return true;
 
       //Oeste
       count = genericWin(y, x, MovX_D1_O, MovY_D1_O, count);
+
+      if(count >= 10){
+        if(flag)
+          return false;
+        else
+          count -= 10; // count = count - 10
+      }
+
       if(count>=4)
           return true;
+
+          int fac;
+          if(user == MACHINE){
+            fac = 1;
+          }
+          else{
+            fac = -1;
+          }
+
+          //contador
+          switch(count){
+            case 1:
+              evalValue += fac;
+              break;
+            case 2:
+              evalValue += (fac*10);
+              break;
+            case 3:
+              evalValue += (fac*50);
+              break;
+            default:
+              System.err.println("Erro switch do eval");
+              System.exit(0)
+              break;
+          }
+
 
       return false;
     }
@@ -156,6 +292,8 @@ class Tabuleiro{
       if(count>=4)
           return true;
 
+      if(count == -1)
+          return false;
       //Oeste
       count = genericWin(y, x, MovX_D2_O, MovY_D2_O, count);
       if(count>=4)
@@ -164,7 +302,21 @@ class Tabuleiro{
       return false;
     }
 
+  /*
+-50 for three Os, no Xs,
+-10 for two Os, no Xs,
+- 1 for one O, no Xs,
+0 for no tokens, or mixed Xs and Os,
+1 for one X, no Os,
+10 for two Xs, no Os,
+50 for three Xs, no Os.
+*/
     private boolean win(){
+      if(user == MACHINE)
+        evalValue = 16;
+      else
+        evalValue = -16;
+
       for (int i=0;i < dimX ;++i) {
         for (int j = dimY-1;j >=0 ;++j) {
           if(tabu[j][i] == emp)
@@ -177,8 +329,8 @@ class Tabuleiro{
       }
       return false;
     }
-    private int UTILITY(){
-      
+    private Integer UTILITY(){
+      return evalValue;
     }
 
     private boolean isFull(){
