@@ -20,10 +20,7 @@ class MinMax{
 
 
   private int MAX_VALUE(Tabuleiro tabu_inicial,int altura){
-      if(tabu_inicial.win()){
-        return 1000; //a defenir
-      }
-      if(altura>=profundidade_maxima){
+      if(tabu_inicial.win() || altura>=profundidade_maxima){
          return tabu_inicial.UTILITY();
       }
       int max = Integer.MIN_VALUE;
@@ -36,10 +33,7 @@ class MinMax{
 
 
   private int MIN_VALUE(Tabuleiro tabu_inicial,int altura){
-    if(tabu_inicial.win()){
-      return 1000; //a defenir
-    }
-    if(altura>=profundidade_maxima){
+    if(tabu_inicial.win() || altura>=profundidade_maxima){
        return tabu_inicial.UTILITY();
     }
     int min = Integer.MAX_VALUE;
