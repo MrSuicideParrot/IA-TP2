@@ -1,11 +1,23 @@
 class MinMax{
     private final static profundidade_maxima = 6;
 
+    private Tabuleiro lastMove;
     MinMax(){
 
     }
 
-    public Tabuleiro MINIMAX_DECISION(Tabuleiro tabu_inicial){
+    public Tabuleiro MINIMAX_DECISION(Tabuleiro tabu_adversario){
+      Tabuleiro tabu_inicial;
+
+      //Se correr mal comentar a abaixo
+      for (Tabuleiro aux : lastMove.nextRound()) {
+        if(aux.equals(tabu_adversario)){
+          tabu_inicial = aux;
+          break;
+        }
+      }
+
+      //tabu_inicial == tabu_adversario;
       int max = Integer.MIN_VALUE;
       Tabuleiro max_node = NULL;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
@@ -15,6 +27,7 @@ class MinMax{
           max_node = aux;
         }
       }
+      lastMove = max_node;
       return max_node;
     }
 
