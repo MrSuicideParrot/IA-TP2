@@ -47,15 +47,20 @@ class Tabuleiro{
   private char[][] tabu;
   private char User;
   private Integer evalValue ;
+  LinkedList<Tabuleiro> filhos;
 
   Tabuleiro(char[][] m, char User){
     tabu = new char[dimY][dimX];
     this.User = User;
     MatrizCopy.copy(dimX,dimY, tabu, m);
     evalValue = NULL;
+    filhos = NUll;
   }
 
   public LinkedList<Tabuleiro> nextRound(){
+    if(filhos != NULL)
+      return filhos;
+
     char nextUser;
     Tabuleiro aux;
     switch  (User){
@@ -76,6 +81,7 @@ class Tabuleiro{
     LinkedList<Tabuleiro> round = new LinkedList<Tabuleiro>();
     for (int i = 0;i < dimX ;++i)
       round.add(nextRound(i, nextUser));
+    filhos = round;
     return round;
   }
 
@@ -340,10 +346,21 @@ class Tabuleiro{
       return true;
     }
 
-    public String toString(){
-      String aux = "";
+    public boolean equals(Object o){
+      Tabuleiro p1 = this;
+      Tabuleiro p2 = (Tabuleiro)o;
       for (int i = 0;i < dimY ;++i ) {
         for (int j = 0 ;j < dimX ;++j ) {
+          if(p1.tabu[i][j]!=p2.tabu[i][j])
+            return false;
+        }
+      }
+      return true;
+    }
+
+    public String toString(){
+      String aux = "";
+
           aux = aux + tabu[i][j]+" ";
         }
         aux = aux + '\n';
