@@ -8,9 +8,20 @@ public class ConnectFour{
     System.out.println(inicial);
     System.out.print("Insira onde pretende jogar: ");
     Tabuleiro jogada = inicial.nextRound(input.nextInt(),Tabuleiro.HUMAN);
-    System.out.println(jogada);
-    MinMax.MINIMAX_DECISION(jogada);
-    System.out.println();
-
+    while(true){
+      System.out.println(jogada);
+      if(jogada.win()){
+        System.out.println("Ganhaste aind abem para ti, mal para quem fez o jogo!");
+        break;
+      }
+      jogada = bot.MINIMAX_DECISION(jogada);
+      System.out.println(jogada);
+      if(jogada.winner){
+        System.out.println("A maquina ganhou nao te queixes quando amaquina te tentar excluir da terra!");
+        break;
+      }
+      System.out.print("Insira onde pretende jogar: ");
+      jogada = jogada.nextRound(input.nextInt(),Tabuleiro.HUMAN);
+    }
   }
 }

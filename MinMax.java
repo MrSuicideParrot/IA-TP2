@@ -7,7 +7,7 @@ class MinMax{
     }
 
     public Tabuleiro MINIMAX_DECISION(Tabuleiro tabu_adversario){
-      Tabuleiro tabu_inicial;
+      Tabuleiro tabu_inicial=null;
       if(lastMove != null){
         //Se correr mal comentar a abaixo
         for (Tabuleiro aux : lastMove.nextRound()) {

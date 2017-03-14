@@ -47,8 +47,8 @@ class Tabuleiro{
   private char[][] tabu;
   private char User;
 
-  private Boolean winner;
-  private Integer evalValue ;
+  public Boolean winner;
+  public Integer evalValue ;
   LinkedList<Tabuleiro> filhos;
 
   Tabuleiro(){ // começar ao contrario
@@ -131,7 +131,7 @@ class Tabuleiro{
           }
         }
         else{
-          if (tabu[auxY][auxX]!=emp) {
+          if (isValid(auxY,auxX) && tabu[auxY][auxX]!=emp) {
            return 10+counter;
           }
           break;
@@ -337,20 +337,22 @@ class Tabuleiro{
 50 for three Xs, no Os.
 */
     public boolean win(){
-      if(winner != null)
+      if(winner != null){
         return winner;
-
+      }
       if(User == MACHINE)
         evalValue = 16;
       else
         evalValue = -16;
 
       for (int i=0;i < dimX ;++i) {
-        for (int j = dimY-1;j >=0 ;++j) {
+        for (int j = dimY-1;j >=0 ;--j) {
+          //System.out.println(j+" "+i);
           if(tabu[j][i] == emp)
             break;
           if(tabu[j][i] == User){
             if(winHO(j,i) || winVE(j,i) || winD1(j,i) || winD2(j,i)){
+              System.out.println(winHO(j,i)+"|| "+winVE(j,i)+" || "+winD1(j,i)+" || "+winD2(j,i));
               winner = true;
               return true;
             }
