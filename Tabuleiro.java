@@ -41,24 +41,40 @@ class Tabuleiro{
 
   private static final char emp = '-';
 
-  private static final char MACHINE = 'X';
-  private static final char HUMAN = 'O';
+  public static final char MACHINE = 'X';
+  public static final char HUMAN = 'O';
 
   private char[][] tabu;
   private char User;
+
+  private Boolean winner;
   private Integer evalValue ;
   LinkedList<Tabuleiro> filhos;
+
+  Tabuleiro(){ // começar ao contrario
+    tabu = new char[dimY][dimX];
+    //this.User = null;
+    evalValue = null;
+    filhos = null;
+    winner = null;
+
+    //Tabuleiro branco
+    for (int i = 0;i < dimY ;++i )
+      for (int j = 0 ;j < dimX ;++j )
+        tabu[i][j] = emp;
+  }
 
   Tabuleiro(char[][] m, char User){
     tabu = new char[dimY][dimX];
     this.User = User;
     MatrizCopy.copy(dimX,dimY, tabu, m);
-    evalValue = NULL;
-    filhos = NUll;
+    evalValue = null;
+    filhos = null;
+    winner = null;
   }
 
   public LinkedList<Tabuleiro> nextRound(){
-    if(filhos != NULL)
+    if(filhos != null)
       return filhos;
 
     char nextUser;
@@ -85,7 +101,7 @@ class Tabuleiro{
     return round;
   }
 
-  private Tabuleiro nextRound(int row, char nextUser){
+  public Tabuleiro nextRound(int row, char nextUser){
     Tabuleiro aux = new Tabuleiro(this.tabu, nextUser);
       for (int j = dimY-1;j>=0; --j) {
         if(aux.tabu[j][row] == emp){
@@ -105,7 +121,7 @@ class Tabuleiro{
         if(isValid(auxY,auxX) && tabu[auxY][auxX]==User){
           ++counter;
           if(counter>=4){
-            if(user == MACHINE){
+            if(User == MACHINE){
               evalValue += 512;
             }
             else{
@@ -126,7 +142,7 @@ class Tabuleiro{
 
     private boolean winHO(int y, int x){
       int count;
-      boolean flag = false
+      boolean flag = false;
       //Este
       count = genericWin(y, x, MovX_HO_E, MovY_HO_E,1);
 
@@ -153,7 +169,7 @@ class Tabuleiro{
           return true;
 
       int fac;
-      if(user == MACHINE){
+      if(User == MACHINE){
         fac = 1;
       }
       else{
@@ -173,7 +189,7 @@ class Tabuleiro{
           break;
         default:
           System.err.println("Erro switch do eval");
-          System.exit(0)
+          System.exit(0);
           break;
       }
 
@@ -182,6 +198,7 @@ class Tabuleiro{
 
     private boolean winVE(int y, int x){
       int count;
+      boolean flag = false;
       //Este
       count = genericWin(y, x, MovX_VE_N, MovY_VE_N,1);
 
@@ -208,7 +225,7 @@ class Tabuleiro{
 
       //EVALUATED
           int fac;
-          if(user == MACHINE){
+          if(User == MACHINE){
             fac = 1;
           }
           else{
@@ -228,7 +245,7 @@ class Tabuleiro{
             break;
             default:
             System.err.println("Erro switch do eval");
-            System.exit(0)
+            System.exit(0);
             break;
           }
 
@@ -238,6 +255,7 @@ class Tabuleiro{
 
     private boolean winD1(int y, int x){
       int count;
+      boolean flag = false;
       //Este
       count = genericWin(y, x, MovX_D1_E, MovY_D1_E,1);
 
@@ -263,7 +281,7 @@ class Tabuleiro{
           return true;
 
           int fac;
-          if(user == MACHINE){
+          if(User == MACHINE){
             fac = 1;
           }
           else{
@@ -283,7 +301,7 @@ class Tabuleiro{
               break;
             default:
               System.err.println("Erro switch do eval");
-              System.exit(0)
+              System.exit(0);
               break;
           }
 
@@ -293,6 +311,7 @@ class Tabuleiro{
 
     private boolean winD2(int y, int x){
       int count;
+      boolean flag = false;
       //Este
       count = genericWin(y, x, MovX_D2_E, MovY_D2_E,1);
       if(count>=4)
@@ -317,8 +336,11 @@ class Tabuleiro{
 10 for two Xs, no Os,
 50 for three Xs, no Os.
 */
-    private boolean win(){
-      if(user == MACHINE)
+    public boolean win(){
+      if(winner != null)
+        return winner;
+
+      if(User == MACHINE)
         evalValue = 16;
       else
         evalValue = -16;
@@ -328,18 +350,22 @@ class Tabuleiro{
           if(tabu[j][i] == emp)
             break;
           if(tabu[j][i] == User){
-            if(winHO(j,i) || winVE(j,i) || winD1(j,i) || winD2(j,i))
+            if(winHO(j,i) || winVE(j,i) || winD1(j,i) || winD2(j,i)){
+              winner = true;
               return true;
+            }
           }
         }
       }
+      winner = false;
       return false;
     }
-    private Integer UTILITY(){
+
+    public  Integer UTILITY(){
       return evalValue;
     }
 
-    private boolean isFull(){
+    public boolean isFull(){
       for (int j = 0;j<dimX; ++j)
         if(tabu[0][j] == emp)
           return false;
@@ -359,8 +385,9 @@ class Tabuleiro{
     }
 
     public String toString(){
-      String aux = "";
-
+      String aux = "0 1 2 3 4 5 6\n\n";
+      for (int i = 0;i < dimY ;++i ) {
+        for (int j = 0 ;j < dimX ;++j ) {
           aux = aux + tabu[i][j]+" ";
         }
         aux = aux + '\n';

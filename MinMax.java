@@ -1,25 +1,27 @@
 class MinMax{
-    private final static profundidade_maxima = 6;
-
+    private final static int profundidade_maxima = 6;
     private Tabuleiro lastMove;
-    MinMax(){
 
+    MinMax(){
+      lastMove = null;
     }
 
     public Tabuleiro MINIMAX_DECISION(Tabuleiro tabu_adversario){
       Tabuleiro tabu_inicial;
-
-      //Se correr mal comentar a abaixo
-      for (Tabuleiro aux : lastMove.nextRound()) {
-        if(aux.equals(tabu_adversario)){
-          tabu_inicial = aux;
-          break;
+      if(lastMove != null){
+        //Se correr mal comentar a abaixo
+        for (Tabuleiro aux : lastMove.nextRound()) {
+          if(aux.equals(tabu_adversario)){
+            tabu_inicial = aux;
+            break;
+          }
         }
       }
+      else
+        tabu_inicial = tabu_adversario;
 
-      //tabu_inicial == tabu_adversario;
       int max = Integer.MIN_VALUE;
-      Tabuleiro max_node = NULL;
+      Tabuleiro max_node = null;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
         int aux_max=MIN_VALUE(aux,2);
         if (max<aux_max) { //ver quando tem coisas iguais
@@ -33,12 +35,12 @@ class MinMax{
 
 
   private int MAX_VALUE(Tabuleiro tabu_inicial,int altura){
-      if(tabu_inicial.win() || altura>=profundidade_maxima){
+      if(tabu_inicial.win() || altura>=profundidade_maxima || tabu_inicial.isFull()){
          return tabu_inicial.UTILITY();
       }
       int max = Integer.MIN_VALUE;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
-        max = Math.max(aux_max,MIN_VALUE(aux,altura+1));
+        max = Math.max(max,MIN_VALUE(aux,altura+1));
       }
       return max;
     }
@@ -46,12 +48,12 @@ class MinMax{
 
 
   private int MIN_VALUE(Tabuleiro tabu_inicial,int altura){
-    if(tabu_inicial.win() || altura>=profundidade_maxima){
+    if(tabu_inicial.win() || altura>=profundidade_maxima || tabu_inicial.isFull()){
        return tabu_inicial.UTILITY();
     }
     int min = Integer.MAX_VALUE;
     for(Tabuleiro aux : tabu_inicial.nextRound()){
-      min = Math.min(aux_min,MIN_VALUE(aux,altura+1));
+      min = Math.min(min,MIN_VALUE(aux,altura+1));
     }
     return min;
   }
