@@ -14,7 +14,7 @@ public class ConnectFour{
         System.out.println("Ganhaste aind abem para ti, mal para quem fez o jogo!");
         break;
       }
-      jogada = bot.MINIMAX_DECISION(jogada);
+      jogada = bot.DECISION(jogada);
       System.out.println(jogada);
       if(jogada.winner){
         System.out.println("A maquina ganhou nao te queixes quando amaquina te tentar excluir da terra!");

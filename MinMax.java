@@ -1,12 +1,12 @@
 class MinMax{
-    private final static int profundidade_maxima = 6;
+    private final static int profundidade_maxima = 8;
     private Tabuleiro lastMove;
 
     MinMax(){
       lastMove = null;
     }
 
-    public Tabuleiro MINIMAX_DECISION(Tabuleiro tabu_adversario){
+    public Tabuleiro DECISION(Tabuleiro tabu_adversario){
       Tabuleiro tabu_inicial=null;
       if(lastMove != null){
         //Se correr mal comentar a abaixo
