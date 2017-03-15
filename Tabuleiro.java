@@ -36,8 +36,8 @@ class Tabuleiro{
   /* -------------------------------*/
 
 
-  private static final int dimY = 6;
-  private static final int dimX = 7;
+  public static final int dimY = 6;
+  public static final int dimX = 7;
 
   private static final char emp = '-';
 
@@ -213,15 +213,15 @@ class Tabuleiro{
       //Oeste
       count = genericWin(y, x, MovX_VE_S, MovY_VE_S, count);
 
+      if(count >= 10){
+        if(flag)
+        return false;
+        else
+        count -= 10; // count = count - 10
+      }
+
       if(count>=4)
           return true;
-
-          if(count >= 10){
-            if(flag)
-              return false;
-            else
-          count -= 10; // count = count - 10
-        }
 
       //EVALUATED
           int fac;
@@ -314,15 +314,54 @@ class Tabuleiro{
       boolean flag = false;
       //Este
       count = genericWin(y, x, MovX_D2_E, MovY_D2_E,1);
-      if(count>=4)
-          return true;
 
-      if(count == -1)
-          return false;
+      if(count >= 10){
+        count -= 10;
+        flag = true;
+      }
+
+      //System.out.println(count);
+      if(count>=4)
+      return true;
+
       //Oeste
       count = genericWin(y, x, MovX_D2_O, MovY_D2_O, count);
+
+      if(count >= 10){
+        if(flag)
+        return false;
+        else
+        count -= 10; // count = count - 10
+      }
+
+
       if(count>=4)
-          return true;
+      return true;
+
+      int fac;
+      if(User == MACHINE){
+        fac = 1;
+      }
+      else{
+        fac = -1;
+      }
+
+      //contador
+      switch(count){
+        case 1:
+        evalValue += fac;
+        break;
+        case 2:
+        evalValue += (fac*10);
+        break;
+        case 3:
+        evalValue += (fac*50);
+        break;
+        default:
+        System.err.println("Erro switch do eval");
+        System.exit(0);
+        break;
+      }
 
       return false;
     }
@@ -352,7 +391,7 @@ class Tabuleiro{
             break;
           if(tabu[j][i] == User){
             if(winHO(j,i) || winVE(j,i) || winD1(j,i) || winD2(j,i)){
-              System.out.println(winHO(j,i)+"|| "+winVE(j,i)+" || "+winD1(j,i)+" || "+winD2(j,i));
+              //System.out.println(winHO(j,i)+"|| "+winVE(j,i)+" || "+winD1(j,i)+" || "+winD2(j,i));
               winner = true;
               return true;
             }
