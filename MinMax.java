@@ -42,7 +42,7 @@ class MinMax{
       for(Tabuleiro aux : tabu_inicial.nextRound()){
         max = Math.max(max,MIN_VALUE(aux,altura+1));
       }
-      return max;
+      return (max+tabu_inicial.UTILITY());
     }
 
 
@@ -55,6 +55,6 @@ class MinMax{
     for(Tabuleiro aux : tabu_inicial.nextRound()){
       min = Math.min(min,MIN_VALUE(aux,altura+1));
     }
-    return min;
+    return (min+tabu_inicial.UTILITY());
   }
 }

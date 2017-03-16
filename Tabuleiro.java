@@ -44,7 +44,7 @@ class Tabuleiro{
   public static final char MACHINE = 'X';
   public static final char HUMAN = 'O';
 
-  private char[][] tabu;
+  public char[][] tabu;
   private char User;
 
   public Boolean winner;
@@ -112,12 +112,14 @@ class Tabuleiro{
       return aux;
     }
     private boolean isValid(int y, int x){
-      return (0<y && y < dimY && 0<x && x < dimX);
+      return (0<=y && y < dimY && 0<=x && x < dimX);
     }
 
     private int genericWin(int y, int x,int[] movx,int[] movy,int counter){
       for (int i = 0;i < 3 ; ++i) {
         int auxX = (x+movx[i]), auxY = (y+movy[i]);
+      //  if(movx == MovX_VE_S)
+        //  System.out.println(auxY+" "+auxX+"  "+isValid(auxY,auxX)+" "+(tabu[auxY][auxX]==User));
         if(isValid(auxY,auxX) && tabu[auxY][auxX]==User){
           ++counter;
           if(counter>=4){
@@ -197,6 +199,7 @@ class Tabuleiro{
     }
 
     private boolean winVE(int y, int x){
+      //System.out.println(y+" "+x);
       int count;
       boolean flag = false;
       //Este
@@ -212,7 +215,7 @@ class Tabuleiro{
 
       //Oeste
       count = genericWin(y, x, MovX_VE_S, MovY_VE_S, count);
-
+      //System.out.println(count);
       if(count >= 10){
         if(flag)
         return false;
