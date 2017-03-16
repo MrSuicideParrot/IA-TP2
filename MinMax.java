@@ -23,7 +23,8 @@ class MinMax{
       int max = Integer.MIN_VALUE;
       Tabuleiro max_node = null;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
-        int aux_max=MIN_VALUE(aux,2);
+        int aux_max=MAX_VALUE(aux,2);
+        //System.out.println(aux+" "+aux_max);
         if (max<aux_max) { //ver quando tem coisas iguais
           max = aux_max;
           max_node = aux;

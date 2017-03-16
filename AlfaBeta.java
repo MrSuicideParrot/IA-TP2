@@ -25,7 +25,7 @@ class AlfaBeta{
     int max = Integer.MIN_VALUE;
     Tabuleiro max_node = null;
     for(Tabuleiro aux : tabu_inicial.nextRound()){
-      int aux_max=MIN_VALUE(aux, 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
+      int aux_max=MAX_VALUE(aux, 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
       if (max<aux_max) { //ver quando tem coisas iguais
         max = aux_max;
         max_node = aux;
