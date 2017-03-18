@@ -62,6 +62,8 @@ class Tabuleiro{
     for (int i = 0;i < dimY ;++i )
       for (int j = 0 ;j < dimX ;++j )
         tabu[i][j] = emp;
+
+    User = 'O';
   }
 
   Tabuleiro(char[][] m, char User){

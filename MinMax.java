@@ -1,9 +1,10 @@
 class MinMax{
-    private final static int profundidade_maxima = 8;
+    private int profundidade_maxima;
     private Tabuleiro lastMove;
 
-    MinMax(){
+    MinMax(int i){
       lastMove = null;
+      profundidade_maxima = i;
     }
 
     public Tabuleiro DECISION(Tabuleiro tabu_adversario){

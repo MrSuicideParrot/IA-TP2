@@ -1,11 +1,12 @@
 class AlfaBeta{
   //Alpha = melhor opção explorada até agora maximizante
   //Beta = melhor opção explorada até agora minimizante
-  private final static int profundidade_maxima = 6;
+  private int profundidade_maxima;
   private Tabuleiro lastMove;
 
-  AlfaBeta(){
+  AlfaBeta(int prof){
       lastMove = null;
+      profundidade_maxima = prof;
   }
 
   public Tabuleiro DECISION(Tabuleiro tabu_adversario){
