@@ -60,7 +60,7 @@ public class ConnectFour{
     while(true){
       System.out.println("-Jogada do Humano-----\n");
       System.out.println(jogada);
-      if(jogada.win()){
+      if(jogada.win(0)){
         System.out.println("Ganhaste ainda bem para ti, mal para quem fez o jogo!!");
         break;
       }

@@ -35,6 +35,7 @@ class Tabuleiro{
   private static final int[] MovY_VE_S = {-1, -2, -3};
   /* -------------------------------*/
 
+  public int alturaSol;
 
   public static final int dimY = 6;
   public static final int dimX = 7;
@@ -380,7 +381,7 @@ class Tabuleiro{
 10 for two Xs, no Os,
 50 for three Xs, no Os.
 */
-    public boolean win(){
+    public boolean win(int altura){
       if(winner != null){
         return winner;
       }
@@ -397,6 +398,7 @@ class Tabuleiro{
           if(tabu[j][i] == User){
             if(winHO(j,i) || winVE(j,i) || winD1(j,i) || winD2(j,i)){
               //System.out.println(winHO(j,i)+"|| "+winVE(j,i)+" || "+winD1(j,i)+" || "+winD2(j,i));
+              alturaSol = altura;
               winner = true;
               return true;
             }

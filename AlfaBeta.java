@@ -24,12 +24,14 @@ class AlfaBeta{
       tabu_inicial = tabu_adversario;
 
     int max = Integer.MIN_VALUE;
+    int localalt = Integer.MIN_VALUE;
     Tabuleiro max_node = null;
     for(Tabuleiro aux : tabu_inicial.nextRound()){
       int aux_max=MIN_VALUE(aux, 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
-      if (max<aux_max) { //ver quando tem coisas iguais
+      if (max<aux_max ||(max==aux_max && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
         max = aux_max;
         max_node = aux;
+        localalt = aux.alturaSol;
       }
     }
     lastMove = max_node;
@@ -38,12 +40,18 @@ class AlfaBeta{
 
 
   private int MAX_VALUE(Tabuleiro tabu_inicial,int altura,int alfa, int beta){
-      if(tabu_inicial.win() || altura>=profundidade_maxima || tabu_inicial.isFull()){
+      if(tabu_inicial.win(altura) || altura>=profundidade_maxima || tabu_inicial.isFull()){
          return tabu_inicial.UTILITY();
       }
       int max = Integer.MIN_VALUE;
+      int localalt = Integer.MIN_VALUE;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
-        max = Math.max(max,MIN_VALUE(aux,altura+1, alfa, beta));
+        //max = Math.max(max,MIN_VALUE(aux,altura+1, alfa, beta));
+        int d = MIN_VALUE(aux,altura+1, alfa, beta);
+        if(max<d || (max==d && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
+          max = d;
+          localalt = aux.alturaSol;
+        }
         if(max >= beta){
           return max;
         }
@@ -51,18 +59,25 @@ class AlfaBeta{
           alfa=Math.max(alfa,max);
         }
       }
+      tabu_inicial.alturaSol = localalt;
       return max;
     }
 
 
 
   private int MIN_VALUE(Tabuleiro tabu_inicial,int altura,int alfa, int beta){
-    if(tabu_inicial.win() || altura>=profundidade_maxima || tabu_inicial.isFull()){
+    if(tabu_inicial.win(altura) || altura>=profundidade_maxima || tabu_inicial.isFull()){
        return tabu_inicial.UTILITY();
     }
     int min = Integer.MAX_VALUE;
+    int localalt = Integer.MIN_VALUE;
     for(Tabuleiro aux : tabu_inicial.nextRound()){
-      min = Math.min(min,MAX_VALUE(aux,altura+1, alfa, beta));
+      //min = Math.min(min,MAX_VALUE(aux,altura+1, alfa, beta));
+      int d = MAX_VALUE(aux,altura+1, alfa, beta);
+      if(min>d || (min==d && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
+        min = d;
+        localalt = aux.alturaSol;
+      }
       if(min <= alfa){
         return min;
       }
@@ -70,6 +85,7 @@ class AlfaBeta{
         beta = Math.min(beta,min);
       }
     }
+    tabu_inicial.alturaSol = localalt;
     return min;
   }
 }
