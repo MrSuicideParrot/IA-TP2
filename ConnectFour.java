@@ -69,12 +69,17 @@ public class ConnectFour{
         break;
       }
       //bot
-
+      long startTime = System.currentTimeMillis();
       if(algo == 1)
         jogada = bot1.DECISION(jogada);
       else
         jogada = bot2.DECISION(jogada);
-      System.out.println("-Jogada do BOT-----\n");
+      System.out.println("-Jogada do BOT-----\n"+(double)(System.currentTimeMillis() - startTime) / 1000.0+" segundos.");
+      if(algo == 1)
+        System.out.println(bot1.nos+"nos visitados.");
+      else
+        System.out.println(bot2.nos+"nos visitados.");
+
       System.out.println(jogada);
       if(jogada.winner){
         System.out.println("A máquina ganhou, nao te queixes quando ela te tentar eliminar da terra!");
