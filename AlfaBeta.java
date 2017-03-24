@@ -1,6 +1,7 @@
 class AlfaBeta{
   //Alpha = melhor opção explorada até agora maximizante
   //Beta = melhor opção explorada até agora minimizante
+  public int nos;
   private int profundidade_maxima;
   private Tabuleiro lastMove;
 
@@ -10,6 +11,7 @@ class AlfaBeta{
   }
 
   public Tabuleiro DECISION(Tabuleiro tabu_adversario){
+    nos = 0;
     Tabuleiro tabu_inicial=null;
     if(lastMove != null){
       //Se correr mal comentar a abaixo
@@ -29,6 +31,7 @@ class AlfaBeta{
     for(Tabuleiro aux : tabu_inicial.nextRound()){
       int aux_max=MIN_VALUE(aux, 2, Integer.MIN_VALUE, Integer.MAX_VALUE);
       if (max<aux_max ||(max==aux_max && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
+        ++nos;
         max = aux_max;
         max_node = aux;
         localalt = aux.alturaSol;
@@ -46,6 +49,7 @@ class AlfaBeta{
       int max = Integer.MIN_VALUE;
       int localalt = Integer.MIN_VALUE;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
+        ++nos;
         //max = Math.max(max,MIN_VALUE(aux,altura+1, alfa, beta));
         int d = MIN_VALUE(aux,altura+1, alfa, beta);
         if(max<d || (max==d && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
@@ -72,6 +76,7 @@ class AlfaBeta{
     int min = Integer.MAX_VALUE;
     int localalt = Integer.MIN_VALUE;
     for(Tabuleiro aux : tabu_inicial.nextRound()){
+      ++nos;
       //min = Math.min(min,MAX_VALUE(aux,altura+1, alfa, beta));
       int d = MAX_VALUE(aux,altura+1, alfa, beta);
       if(min>d || (min==d && localalt > aux.alturaSol)) { //ver quando tem coisas iguais

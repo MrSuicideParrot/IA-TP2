@@ -1,6 +1,7 @@
 class MinMax{
     private int profundidade_maxima;
     private Tabuleiro lastMove;
+    public int nos;
 
     MinMax(int i){
       lastMove = null;
@@ -25,6 +26,7 @@ class MinMax{
       int localalt = Integer.MIN_VALUE;
       Tabuleiro max_node = null;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
+        ++nos;
         int aux_max=MIN_VALUE(aux,2);
         //System.out.println(aux+" "+aux_max);
         if (max<aux_max ||(max==aux_max && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
@@ -46,6 +48,7 @@ class MinMax{
       int max = Integer.MIN_VALUE;
       int localalt = Integer.MIN_VALUE;
       for(Tabuleiro aux : tabu_inicial.nextRound()){
+        ++nos;
         //max = Math.max(max,MIN_VALUE(aux,altura+1));
         int d = MIN_VALUE(aux,altura+1);
         if(max<d || (max==d && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
@@ -67,6 +70,7 @@ class MinMax{
     int min = Integer.MAX_VALUE;
     int localalt = Integer.MIN_VALUE;
     for(Tabuleiro aux : tabu_inicial.nextRound()){
+      ++nos;
       //min = Math.min(min,MAX_VALUE(aux,altura+1));
       int d = MAX_VALUE(aux,altura+1);
       if(min>d || (min==d && localalt > aux.alturaSol)) { //ver quando tem coisas iguais
