@@ -27,22 +27,24 @@ public class ConnectFour{
         System.err.println("Opção não reconhecida");
         System.exit(0);
     }
-    Tabuleiro inicial = new Tabuleiro();
-    Tabuleiro jogada;
-    /*while(true){
+    //Tabuleiro inicial = new Tabuleiro();
+    Tabuleiro jogada = new Tabuleiro();
+
+    /* Decisão de quem é que joga primeiro */
+    while(true){
       System.out.println("Prentede que seja a máquina a jogar em primeiro lugar?[y/n]");
       switch(input.next()){
         case "y":
           if(algo == 1)
-            jogada = bot1.DECISION(inicial);
+            jogada = bot1.DECISION(jogada);
           else
-            jogada = bot2.DECISION(inicial);
+            jogada = bot2.DECISION(jogada);
 
           System.out.println(jogada);
           break;
         case "n":
           System.out.println("Tabuleiro vazio:");
-          System.out.println(inicial);
+          System.out.println(jogada);
           break;
 
         default:
@@ -50,12 +52,11 @@ public class ConnectFour{
           continue;
       }
       break;
-    } */
-    System.out.println("Tabuleiro vazio:");
-    System.out.println(inicial);
+    }
+
 
     System.out.print("Insira onde pretende jogar: ");
-    jogada = inicial.nextRound(input.nextInt(),Tabuleiro.HUMAN);
+    jogada = jogada.nextRound(input.nextInt(),Tabuleiro.HUMAN);
 
     while(true){
       System.out.println("-Jogada do Humano-----\n");
